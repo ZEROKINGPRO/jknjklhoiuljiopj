@@ -22,13 +22,13 @@ html,body{margin:0;padding:0;width:100%;height:100%;height:100dvh;background:#12
 .screen-view{flex:1;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;min-height:0}
 .hidden{display:none!important}
 
-/* Typed Number Area (LTR as requested for numbers) */
+/* Typed Number Area */
 .number-display-area{padding:2px 20px;display:flex;align-items:center;justify-content:space-between;height:45px;flex-shrink:0}
 .typed-number{font-size:24px;color:#fff;direction:ltr;text-align:left;flex:1;background:transparent;border:0;outline:none;font-family:inherit;padding:0;margin:0}
 .typed-number::-webkit-scrollbar{display:none}
 .clear-btn{background:none;border:0;color:#c4c7c5;font-size:18px;cursor:pointer;padding:0 5px;flex-shrink:0}
 
-/* Dialpad Container (LTR order matching the requested layout image: 3-2-1, 6-5-4, 9-8-7, #-0-*) */
+/* Dialpad Container */
 .pad-container{padding:0 16px 2px;flex-shrink:0}
 .pad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px 12px;text-align:center;max-width:300px;margin:0 auto;direction:ltr}
 .pad button{background:#1f1f23;border:0;width:60px;height:60px;border-radius:50%;margin:0 auto;color:#fff;font-size:20px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:background 0.15s;flex-shrink:0}
@@ -92,10 +92,85 @@ html,body{margin:0;padding:0;width:100%;height:100%;height:100dvh;background:#12
 .sms-bubble{background:#26262a;color:#e8eaed;padding:8px 12px;border-radius:12px 4px 12px 12px;max-width:85%;font-size:12px;line-height:1.4;word-break:break-word}
 .sms-time{font-size:9px;color:#80868b;margin-top:3px;margin-right:3px}
 
+/* Site Lock Screen Overlay */
+.site-lock-overlay {
+  position: fixed;
+  inset: 0;
+  background: #121214;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  direction: rtl;
+}
+.site-lock-card {
+  width: 100%;
+  max-width: 320px;
+  background: #1f1f23;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.7);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.site-lock-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+}
+.site-lock-desc {
+  font-size: 13px;
+  color: #9aa0a6;
+}
+.site-lock-input {
+  width: 100%;
+  height: 44px;
+  background: #121214;
+  border: 1px solid #38383f;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 16px;
+  text-align: center;
+  outline: none;
+  letter-spacing: 3px;
+  direction: ltr;
+}
+.site-lock-input:focus {
+  border-color: #8ab4f8;
+}
+.site-lock-btn {
+  width: 100%;
+  height: 44px;
+  background: #0f9d58;
+  border: 0;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.site-lock-btn:active {
+  opacity: 0.85;
+}
+
 @keyframes spin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
+
+<!-- شاشة حماية الموقع (الباسورد العام) -->
+<div class="site-lock-overlay" id="siteLockOverlay">
+  <div class="site-lock-card">
+    <div class="site-lock-title">موقع محمي بكلمة مرور</div>
+    <div class="site-lock-desc">الرجاء إدخال كلمة المرور الخاصة لفتح الموقع</div>
+    <input type="password" class="site-lock-input" id="sitePasswordInput" placeholder="كلمة المرور" autocomplete="off">
+    <button class="site-lock-btn" id="siteLoginBtn">دخول</button>
+  </div>
+</div>
 
 <div class="app">
   <div>
@@ -155,7 +230,7 @@ html,body{margin:0;padding:0;width:100%;height:100%;height:100dvh;background:#12
     </button>
     <button class="nav-tab active" id="keypadNavBtn" title="لوحة المفاتيح">
       <div class="dialpad-pill">
-        <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:#8ab4f8;"><path d="M12 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM6 4c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 12c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+        <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:#8ab4f8;"><path d="M12 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM6 4c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 12c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2 z"/></svg>
       </div>
     </button>
   </div>
@@ -200,6 +275,24 @@ html,body{margin:0;padding:0;width:100%;height:100%;height:100dvh;background:#12
 </div>
 
 <script>
+// كلمة المرور العامة لفتح الموقع (يمكنك تغييرها هنا إلى ما تحب)
+const SITE_MASTER_PASSWORD = "90009000";
+
+document.getElementById("siteLoginBtn").onclick = function() {
+  const enteredPass = document.getElementById("sitePasswordInput").value;
+  if(enteredPass === SITE_MASTER_PASSWORD) {
+    document.getElementById("siteLockOverlay").classList.add("hidden");
+  } else {
+    alert("كلمة مرور الموقع غير صحيحة!");
+  }
+};
+
+document.getElementById("sitePasswordInput").addEventListener("keypress", function(e) {
+  if(e.key === "Enter") {
+    document.getElementById("siteLoginBtn").click();
+  }
+});
+
 let dialText = "";
 let transferData = { number: "", amount: "" };
 let maskedOwnerName = "";
