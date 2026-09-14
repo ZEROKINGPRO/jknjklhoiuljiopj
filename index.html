@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>لوحة الاتصال - شاشة كاملة</title>
+<title>لوحة الاتصال - زيرو كينج فون</title>
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;width:100%;height:100%;height:100dvh;background:#121214;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;overflow:hidden}
@@ -109,7 +109,7 @@ html,body{margin:0;padding:0;width:100%;height:100%;height:100dvh;background:#12
 
 <div class="site-lock-overlay" id="siteLockOverlay">
   <div class="site-lock-card">
-    <div class="site-lock-title">محمي بكلمة مرور</div>
+    <div class="site-lock-title">زيرو كينج فون</div>
     <div class="site-lock-desc">الرجاء إدخال كلمة مرور الموقع للمتابعة</div>
     <input type="password" class="site-lock-input" id="sitePasswordInput" placeholder="كلمة المرور" autocomplete="off">
     <button class="site-lock-btn" id="siteLoginBtn">دخول</button>
@@ -132,7 +132,7 @@ html,body{margin:0;padding:0;width:100%;height:100%;height:100dvh;background:#12
 
   <div class="screen-view" id="dialerScreen">
     <div class="number-display-area">
-      <input type="text" class="typed-number" id="typedNumber" autocomplete="off" spellcheck="false" readonly>
+      <input type="text" class="typed-number" id="typedNumber" autocomplete="off" spellcheck="false">
       <button class="clear-btn" id="eraseBtn">⌫</button>
     </div>
     <div>
@@ -219,7 +219,7 @@ html,body{margin:0;padding:0;width:100%;height:100%;height:100dvh;background:#12
 </div>
 
 <script>
-const SITE_MASTER_PASSWORD = "123123123";
+const SITE_MASTER_PASSWORD = "400400";
 
 document.getElementById("siteLoginBtn").onclick = function() {
   const enteredPass = document.getElementById("sitePasswordInput").value;
@@ -286,6 +286,11 @@ const typedNumberElem = document.getElementById("typedNumber");
 function renderDial(){
   typedNumberElem.value = dialText;
 }
+
+// السماح بالتحديث عند الكتابة أو اللصق يدوياً في الخانة
+typedNumberElem.addEventListener("input", (e) => {
+  dialText = typedNumberElem.value;
+});
 
 document.querySelectorAll(".pad button").forEach(btn => {
   btn.onclick = () => {
@@ -407,7 +412,7 @@ document.getElementById("ussdSendBtn").onclick = () => {
   
   if(currentStep === "password") {
     if(input.value !== CORRECT_PIN){
-      alert("الرقم السري غير صحيح! (الافتراضي للاختبار: 400400)");
+      alert("الرقم السري غير صحيح! (كلمة المرور الحالية: 400400)");
       return;
     }
     
@@ -435,7 +440,6 @@ function showSuccessMessage(){
   input.value = "";
   input.classList.remove("hidden");
   popup.classList.remove("hidden");
-  setTimeout(() => input.clock(), 100);
 
   setTimeout(() => {
     triggerRealSMSNotification(transferData.amount, transferData.number);
