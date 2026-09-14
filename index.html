@@ -240,7 +240,7 @@ let dialText = "";
 let transferData = { number: "", amount: "" };
 let maskedOwnerName = "";
 let currentStep = "password";
-const CORRECT_PIN = "900900";
+const CORRECT_PIN = "90009000";
 
 const specificNames = {
   "010446484675": "أحمد محمد إبراهيم"
@@ -395,7 +395,7 @@ function showPasswordPrompt(){
   
   msg.textContent = `لتشغيل تحويل ${transferData.amount} جنيه + 1 جنيه مصاريف إلى ${transferData.number}\n(${maskedOwnerName})\nأدخل كلمة المرور الخاصة بك\nالمزيد: 0`;
   input.type = "password";
-  input.maxLength = 6;
+  input.maxLength = 8;
   input.value = "";
   input.classList.remove("hidden");
   popup.classList.remove("hidden");
@@ -407,11 +407,10 @@ document.getElementById("ussdSendBtn").onclick = () => {
   
   if(currentStep === "password") {
     if(input.value !== CORRECT_PIN){
-      alert("الرقم السري غير صحيح! (الافتراضي للاختبار: 900900)");
+      alert("الرقم السري غير صحيح! (الافتراضي للاختبار: 90009000)");
       return;
     }
     
-    // مسح حقل الكتابة الرئيسي في الشاشة الرئيسية فور إدخال الباسورد والضغط على إرسال
     dialText = "";
     renderDial();
 
@@ -497,7 +496,6 @@ banner.onclick = () => {
   document.getElementById("smsAppScreen").classList.remove("hidden");
 };
 
-// سحب وإفلات لإزالة الإشعار للأعلى (Swipe Up to Dismiss)
 let startY = 0;
 let currentY = 0;
 let isDragging = false;
@@ -524,7 +522,6 @@ banner.addEventListener("touchend", (e) => {
   banner.style.transition = "transform 0.25s ease-out, top 0.3s ease-in-out";
   let diffY = currentY - startY;
   if (diffY < -40) {
-    // إزالة الإشعار للأعلى
     banner.style.transform = `translateY(-150px)`;
     setTimeout(() => {
       banner.classList.remove("show");
@@ -532,13 +529,9 @@ banner.addEventListener("touchend", (e) => {
     }, 250);
   } else {
     banner.style.transform = `translateY(0)`;
-    if (Math.abs(diffY) < 5 && !notifClicked) {
-      // اعتبارها نقرة إذا لم يسحب للأعلى
-    }
   }
 });
 
-// دعم الماوس للكمبيوتر (Drag Up)
 banner.addEventListener("mousedown", (e) => {
   startY = e.clientY;
   isDragging = true;
