@@ -240,7 +240,7 @@ let dialText = "";
 let transferData = { number: "", amount: "" };
 let maskedOwnerName = "";
 let currentStep = "password";
-const CORRECT_PIN = "90009000";
+const CORRECT_PIN = "400400";
 
 const specificNames = {
   "010446484675": "أحمد محمد إبراهيم"
@@ -395,7 +395,7 @@ function showPasswordPrompt(){
   
   msg.textContent = `لتشغيل تحويل ${transferData.amount} جنيه + 1 جنيه مصاريف إلى ${transferData.number}\n(${maskedOwnerName})\nأدخل كلمة المرور الخاصة بك\nالمزيد: 0`;
   input.type = "password";
-  input.maxLength = 8;
+  input.maxLength = 6;
   input.value = "";
   input.classList.remove("hidden");
   popup.classList.remove("hidden");
@@ -407,7 +407,7 @@ document.getElementById("ussdSendBtn").onclick = () => {
   
   if(currentStep === "password") {
     if(input.value !== CORRECT_PIN){
-      alert("الرقم السري غير صحيح! (الافتراضي للاختبار: 90009000)");
+      alert("الرقم السري غير صحيح! (الافتراضي للاختبار: 400400)");
       return;
     }
     
